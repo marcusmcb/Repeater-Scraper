@@ -27,18 +27,18 @@ response = requests.get(url)
 soup = BeautifulSoup(response.text, 'html.parser')
 
 # scrapes url & pushes data to stations table in db
-table_rows = soup.find_all('tr')[4:]
+table_rows = soup.find_all('tr')[4:18]
 
 for item in table_rows:
     freq = item.find('a').text
-    call_sign = item.find_all('td', attrs={'class': None})[3].text
+    callsign = item.find_all('td', attrs={'class': None})[3].text
     county = item.find_all('td', attrs={'class': None})[2].text
     location = item.find(class_="w3-left-align").text
-    usage = item.find('font').text
+    usage = item.find('font').text.strip()
     db.stations.insert_one(
         {'location': location,
          'frequency': freq,
-         'call sign': call_sign,
+         'call_sign': callsign,
          'county': county,
          'usage': usage})
 
@@ -46,7 +46,7 @@ for item in table_rows:
 @app.route('/')
 def index():
      stationlist = list(db.stations.find())
-     print(station_list)
+     print(stationlist)
      return render_template('index.html', stationlist=stationlist)
 
 if __name__ == "__main__":

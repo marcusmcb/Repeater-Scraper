@@ -13,8 +13,8 @@
           <h1 class="jumbotron">Repeater Stations In CA</h1>
           <div>
                <ul style="list-style: none;">
-               {% for station in stationlist%}
-               <li>{{ station.call_sign}}: {{ station.location}}: {{ station.frequency}}: {{ station.county}}: {{ station.usage }}  </li>
+               {% for station in stationlist %}
+               <li>{{ station.call_sign}} {{ station.location }} {{ station.frequency }} {{ station.county }} {{ station.usage }}</li>
                {% endfor %}               
                </ul>
           </div>

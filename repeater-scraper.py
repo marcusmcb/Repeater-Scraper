@@ -21,7 +21,7 @@ response = requests.get(url)
 soup = BeautifulSoup(response.text, 'html.parser')
 
 # scrapes url & pushes data to stations table in db
-table_rows = soup.find_all('tr')[4:]
+table_rows = soup.find_all('tr')[4:18]
 for item in table_rows:
     freq = item.find('a').text
     call_sign = item.find_all('td', attrs={'class': None})[3].text
