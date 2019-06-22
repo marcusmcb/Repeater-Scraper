@@ -4,6 +4,7 @@ import pymongo
 from pymongo import MongoClient
 import requests
 from flask import Flask, render_template, jsonify
+import geocoder
 
 # create flask app
 app = Flask(__name__)
@@ -22,32 +23,44 @@ db.stations.drop()
 
 # url to scrape & soup setup
 url = 'https://www.repeaterbook.com/repeaters/Display_SS.php?state_id=06&band=4&loc=%&call=%&use=%'
-
 response = requests.get(url)
 soup = BeautifulSoup(response.text, 'html.parser')
+
+# initialize variable to concat to location for use w/geocoder
+california = ', CA'
 
 # scrapes url & pushes data to stations table in db
 table_rows = soup.find_all('tr')[4:25]
 
+# for loop to pull out data from each result
 for item in table_rows:
     freq = item.find('a').text
     callsign = item.find_all('td', attrs={'class': None})[3].text
     county = item.find_all('td', attrs={'class': None})[2].text
     location = item.find(class_="w3-left-align").text
     usage = item.find('font').text.strip()
+
+    # pulls location coordinates from geocoder
+    #lat = geocoder.osm(location + california).lat
+    #lng = geocoder.osm(location + california).lng
+
+    # push result to mongodb
     db.stations.insert_one(
         {'location': location,
+     #    'latitude': lat,
+     #    'longitude': lng,
          'frequency': freq,
          'call_sign': callsign,
          'county': county,
          'usage': usage})
 
-# set route
+# set home route
 @app.route('/')
 def index():
      stationlist = list(db.stations.find({}, {'_id': 0}))     
      return render_template('index.html', stationlist=stationlist)
 
+# set data route from scrape to manipulate w/javascript
 @app.route("/api/repeaters")
 def repeaters():
      results = list(db.stations.find({},{'_id':0}))
