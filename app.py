@@ -27,7 +27,7 @@ response = requests.get(url)
 soup = BeautifulSoup(response.text, 'html.parser')
 
 # scrapes url & pushes data to stations table in db
-table_rows = soup.find_all('tr')[4:18]
+table_rows = soup.find_all('tr')[4:1185]
 
 for item in table_rows:
     freq = item.find('a').text
@@ -45,8 +45,7 @@ for item in table_rows:
 # set route
 @app.route('/')
 def index():
-     stationlist = list(db.stations.find())
-     print(stationlist)
+     stationlist = list(db.stations.find())     
      return render_template('index.html', stationlist=stationlist)
 
 if __name__ == "__main__":
