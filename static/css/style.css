@@ -1,0 +1,19 @@
+/* th {
+   text-align: center;
+} */
+
+/* .tableFixHead          {
+      overflow-y: auto; height: 100px;
+      }
+.tableFixHead thead th {
+      position: sticky; top: 0;
+      } */
+
+.stick {
+    position: -webkit-sticky;
+    position: -moz-sticky;
+    position: -ms-sticky;
+    position: -o-sticky;
+    position: sticky;
+    top: 10px;
+}

@@ -1,24 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <meta http-equiv="X-UA-Compatible" content="ie=edge">
      <title>Repeater Stations</title>
-     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+          integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+          crossorigin="anonymous"></script>
+     <link rel="stylesheet" href="../static/css/style.css">
 </head>
+
 <body>
 
      <div class="container text-center">
           <h1 class="jumbotron">Repeater Stations In CA</h1>
-          <div>
-               <ul style="list-style: none;">
-               {% for station in stationlist %}
-               <li>{{ station.call_sign}} {{ station.location }} {{ station.frequency }} {{ station.county }} {{ station.usage }}</li>
-               {% endfor %}               
-               </ul>
+     </div>
+
+     <div class="container text-center">
+          <div class="row">
+               <div class="col-12">
+                    <table class="table table-striped mx-auto">
+                         <thead class="thead-dark">
+                              <tr>
+                                   <th class="text-center">Call Sign</th>
+                                   <th class="text-center">Location</th>
+                                   <th class="text-center">Frequency</th>
+                                   <th class="text-center">County</th>
+                                   <th class="text-center">Status</th>
+                              </tr>
+                         </thead>
+                         <tbody>
+                              {% for station in stationlist %}
+                              <tr>
+                                   <td>{{ station.call_sign }}</td>
+                                   <td>{{ station.location }}</td>
+                                   <td>{{ station.frequency }}</td>
+                                   <td>{{ station.county }}</td>
+                                   <td>{{ station.usage }}</td>
+                              </tr>
+                              {% endfor %}
+                         </tbody>
+                    </table>
+               </div>
           </div>
      </div>
-     
+
 </body>
+
 </html>
