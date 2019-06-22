@@ -41,14 +41,14 @@ for item in table_rows:
     usage = item.find('font').text.strip()
 
     # pulls location coordinates from geocoder
-    #lat = geocoder.osm(location + california).lat
-    #lng = geocoder.osm(location + california).lng
+    lat = geocoder.osm(location + california).lat
+    lng = geocoder.osm(location + california).lng
 
     # push result to mongodb
     db.stations.insert_one(
         {'location': location,
-     #    'latitude': lat,
-     #    'longitude': lng,
+         'latitude': lat,
+         'longitude': lng,
          'frequency': freq,
          'call_sign': callsign,
          'county': county,
@@ -57,7 +57,7 @@ for item in table_rows:
 # set home route
 @app.route('/')
 def index():
-     stationlist = list(db.stations.find({}, {'_id': 0}))     
+     stationlist = list(db.stations.find())     
      return render_template('index.html', stationlist=stationlist)
 
 # set data route from scrape to manipulate w/javascript
