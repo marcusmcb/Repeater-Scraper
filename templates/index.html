@@ -6,20 +6,29 @@
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <meta http-equiv="X-UA-Compatible" content="ie=edge">
      <title>Repeater Stations</title>
+     <!--favicon link-->
+     <link rel="shortcut icon" type="image/png" href="../static/img/favicon.png" />
+     <!--bootstrap css-->
      <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+     <!--boostrap javascript-->
      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
           integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
           crossorigin="anonymous"></script>
-     <link rel="stylesheet" href="../static/css/style.css">
+     <!--google font-->
+     <link href="https://fonts.googleapis.com/css?family=Libre+Franklin&display=swap" rel="stylesheet">
+     <!--local css file-->
+     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
+         
 </head>
 
 <body>
-
      <div class="container text-center">
-          <h1 class="jumbotron">Repeater Stations In CA</h1>
+          <div class="jumbotron">
+               <h1>CA Repeater Stations</h1>
+               <h5>A list of amateur radio repeaters in California</h5>
+          </div>          
      </div>
-
      <div class="container text-center">
           <div class="row">
                <div class="col-12">
@@ -33,6 +42,7 @@
                                    <th class="text-center">Status</th>
                               </tr>
                          </thead>
+                         <!--flask for loop to populate table rows-->
                          <tbody>
                               {% for station in stationlist %}
                               <tr>
@@ -48,7 +58,5 @@
                </div>
           </div>
      </div>
-
 </body>
-
 </html>

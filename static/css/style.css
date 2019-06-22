@@ -1,19 +1,8 @@
-/* th {
-   text-align: center;
-} */
+@font-face{
+      font-family: 'Libre Franklin', sans-serif;
+      src: url('https://fonts.googleapis.com/css?family=Libre+Franklin&display=swap');
+}
 
-/* .tableFixHead          {
-      overflow-y: auto; height: 100px;
-      }
-.tableFixHead thead th {
-      position: sticky; top: 0;
-      } */
-
-.stick {
-    position: -webkit-sticky;
-    position: -moz-sticky;
-    position: -ms-sticky;
-    position: -o-sticky;
-    position: sticky;
-    top: 10px;
+body {
+      font-family: 'Libre Franklin', sans-serif;
 }
