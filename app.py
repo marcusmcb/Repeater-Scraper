@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import pymongo
 from pymongo import MongoClient
 import requests
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 
 # create flask app
 app = Flask(__name__)
@@ -27,7 +27,7 @@ response = requests.get(url)
 soup = BeautifulSoup(response.text, 'html.parser')
 
 # scrapes url & pushes data to stations table in db
-table_rows = soup.find_all('tr')[4:1185]
+table_rows = soup.find_all('tr')[4:25]
 
 for item in table_rows:
     freq = item.find('a').text
@@ -45,8 +45,13 @@ for item in table_rows:
 # set route
 @app.route('/')
 def index():
-     stationlist = list(db.stations.find())     
+     stationlist = list(db.stations.find({}, {'_id': 0}))     
      return render_template('index.html', stationlist=stationlist)
+
+@app.route("/api/repeaters")
+def repeaters():
+     results = list(db.stations.find({},{'_id':0}))
+     return jsonify(results)
 
 if __name__ == "__main__":
      app.run(debug=True)
