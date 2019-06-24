@@ -30,13 +30,14 @@ soup = BeautifulSoup(response.text, 'html.parser')
 california = ', CA'
 
 # scrapes url & pushes data to stations table in db
-table_rows = soup.find_all('tr')[4:25]
+table_rows = soup.find_all('tr')[4:24]
 
 # for loop to pull out data from each result
 for item in table_rows:
     freq = item.find('a').text
     callsign = item.find_all('td', attrs={'class': None})[3].text
-    county = item.find_all('td', attrs={'class': None})[2].text
+    county_full = item.find_all('td', attrs={'class': None})[2].text
+    county = county_full.split(",")[0]
     location = item.find(class_="w3-left-align").text
     usage = item.find('font').text.strip()
 
@@ -68,4 +69,3 @@ def repeaters():
 
 if __name__ == "__main__":
      app.run(debug=True)
-
