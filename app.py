@@ -30,29 +30,34 @@ soup = BeautifulSoup(response.text, 'html.parser')
 california = ', CA'
 
 # scrapes url & pushes data to stations table in db
-table_rows = soup.find_all('tr')[4:24]
+table_rows = soup.find_all('tr')[4:1185]
 
 # for loop to pull out data from each result
 for item in table_rows:
-    freq = item.find('a').text
-    callsign = item.find_all('td', attrs={'class': None})[3].text
-    county = item.find_all('td', attrs={'class': None})[2].text
-    location = item.find(class_="w3-left-align").text.split(",")[0].strip()
-    usage = item.find('font').text.strip()
+     county = item.find_all('td', attrs={'class': None})[2].text
+     if county == "Riverside" or county == "Orange" or county == "Los Angeles":
+    
+          freq = item.find('a').text
+          callsign = item.find_all('td', attrs={'class': None})[3].text
+          county = item.find_all('td', attrs={'class': None})[2].text
+          location = item.find(class_="w3-left-align").text.split(",")[0].strip()
+          usage = item.find('font').text.strip()
 
-    # pulls location coordinates from geocoder
-    lat = geocoder.osm(location + california).lat
-    lng = geocoder.osm(location + california).lng
+          # pulls location coordinates from geocoder
+          lat = geocoder.osm(location + california).lat
+          lng = geocoder.osm(location + california).lng
 
-    # push result to mongodb
-    db.stations.insert_one(
-        {'location': location,
-         'latitude': lat,
-         'longitude': lng,
-         'frequency': freq,
-         'call_sign': callsign,
-         'county': county,
-         'usage': usage})
+          # push result to mongodb
+          db.stations.insert_one(
+               {'location': location,
+               'latitude': lat,
+               'longitude': lng,
+               'frequency': freq,
+               'call_sign': callsign,
+               'county': county,
+               'usage': usage})
+     else:
+          pass
 
 # set home route
 @app.route('/')
