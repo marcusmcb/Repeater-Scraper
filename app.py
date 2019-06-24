@@ -34,28 +34,30 @@ table_rows = soup.find_all('tr')[4:1185]
 
 # for loop to pull out data from each result
 for item in table_rows:
-     county = item.find_all('td', attrs={'class': None})[2].text
-     if county == "Riverside" or county == "Orange" or county == "Los Angeles":
-    
-          freq = item.find('a').text
-          callsign = item.find_all('td', attrs={'class': None})[3].text
+     freq = item.find('a').text
+     if freq != "":                       
           county = item.find_all('td', attrs={'class': None})[2].text
-          location = item.find(class_="w3-left-align").text.split(",")[0].strip()
-          usage = item.find('font').text.strip()
+          if county == "Orange" or county == "Los Angeles":    
+               callsign = item.find_all('td', attrs={'class': None})[3].text
+               county = item.find_all('td', attrs={'class': None})[2].text
+               location = item.find(class_="w3-left-align").text.split(",")[0].strip()
+               usage = item.find('font').text.strip()
 
-          # pulls location coordinates from geocoder
-          lat = geocoder.osm(location + california).lat
-          lng = geocoder.osm(location + california).lng
+               # pulls location coordinates from geocoder
+               lat = geocoder.osm(location + california).lat
+               lng = geocoder.osm(location + california).lng
 
-          # push result to mongodb
-          db.stations.insert_one(
-               {'location': location,
-               'latitude': lat,
-               'longitude': lng,
-               'frequency': freq,
-               'call_sign': callsign,
-               'county': county,
-               'usage': usage})
+               # push result to mongodb
+               db.stations.insert_one(
+                    {'location': location,
+                    'latitude': lat,
+                    'longitude': lng,
+                    'frequency': freq,
+                    'call_sign': callsign,
+                    'county': county,
+                    'usage': usage})
+          else:
+               pass
      else:
           pass
 
