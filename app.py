@@ -34,28 +34,46 @@ table_rows = soup.find_all('tr')[4:1185]
 
 # for loop to pull out data from each result
 for item in table_rows:
-     freq = item.find('a').text
-     if freq != "":                       
+
+     # scrapes call-sign
+     callsign = item.find_all('td', attrs={'class': None})[3].text
+
+     # if/else statement to check for blank call-sign
+     if callsign != "": 
+
+          # scrapes repeater location's county                      
           county = item.find_all('td', attrs={'class': None})[2].text
-          if county == "Orange" or county == "Los Angeles":    
-               callsign = item.find_all('td', attrs={'class': None})[3].text
-               county = item.find_all('td', attrs={'class': None})[2].text
-               location = item.find(class_="w3-left-align").text.split(",")[0].strip()
+
+          # if/else statement to narrow list down to just LA & OC repeaters
+          if county == "Orange" or county == "Los Angeles":
+
+               # scrapes repeater status    
                usage = item.find('font').text.strip()
 
-               # pulls location coordinates from geocoder
-               lat = geocoder.osm(location + california).lat
-               lng = geocoder.osm(location + california).lng
+               # if/else statement to remove private repeaters
+               if usage != "PRIVATE":
 
-               # push result to mongodb
-               db.stations.insert_one(
-                    {'location': location,
-                    'latitude': lat,
-                    'longitude': lng,
-                    'frequency': freq,
-                    'call_sign': callsign,
-                    'county': county,
-                    'usage': usage})
+                    # scrapes remaining values
+                    freq = item.find('a').text               
+                    county = item.find_all('td', attrs={'class': None})[2].text
+                    location = item.find(class_="w3-left-align").text.split(",")[0].strip()               
+
+                    # pulls location coordinates from geocoder
+                    lat = geocoder.osm(location + california).lat
+                    lng = geocoder.osm(location + california).lng
+
+                    # push result to mongodb
+                    db.stations.insert_one(
+                         {'location': location,
+                         'latitude': lat,
+                         'longitude': lng,
+                         'frequency': freq,
+                         'call_sign': callsign,
+                         'county': county,
+                         'usage': usage})
+
+               else:
+                    pass
           else:
                pass
      else:
