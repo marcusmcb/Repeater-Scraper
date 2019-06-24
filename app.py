@@ -36,8 +36,7 @@ table_rows = soup.find_all('tr')[4:24]
 for item in table_rows:
     freq = item.find('a').text
     callsign = item.find_all('td', attrs={'class': None})[3].text
-    county_full = item.find_all('td', attrs={'class': None})[2].text
-    county = county_full.split(",")[0]
+    county = item.find_all('td', attrs={'class': None})[2].text.split(",")[0].strip()
     location = item.find(class_="w3-left-align").text
     usage = item.find('font').text.strip()
 
