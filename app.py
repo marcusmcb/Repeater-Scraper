@@ -9,6 +9,7 @@ import geocoder
 # create flask app
 app = Flask(__name__)
 
+
 # mongo connection
 conn = 'mongodb://localhost:27017'
 
@@ -17,10 +18,13 @@ client = pymongo.MongoClient(conn)
 
 # database connection
 db = client.repeater_db
+print("Before Drop")
 
 # drops stations tables to avoid duplicates
 db.stations.drop()
 
+#db.stations.drop()
+print("After Drop")
 # url to scrape & soup setup
 url = 'https://www.repeaterbook.com/repeaters/Display_SS.php?state_id=06&band=4&loc=%&call=%&use=%'
 response = requests.get(url)
@@ -61,7 +65,7 @@ for item in table_rows:
                     # pulls location coordinates from geocoder
                     lat = geocoder.osm(location + california).lat
                     lng = geocoder.osm(location + california).lng
-
+                    print('Data Added')
                     # push result to mongodb
                     db.stations.insert_one(
                          {'location': location,
@@ -82,7 +86,7 @@ for item in table_rows:
 # set home route
 @app.route('/')
 def index():
-     stationlist = list(db.stations.find())     
+     stationlist = list(db.stations.find({},{'_id':0}))     
      return render_template('index.html', stationlist=stationlist)
 
 # set data route from scrape to manipulate w/javascript
@@ -92,4 +96,4 @@ def repeaters():
      return jsonify(results)
 
 if __name__ == "__main__":
-     app.run(debug=True)
+     app.run(debug=True, use_reloader=False)
