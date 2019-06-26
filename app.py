@@ -49,7 +49,7 @@ for item in table_rows:
           county = item.find_all('td', attrs={'class': None})[2].text
 
           # if/else statement to narrow list down to just LA & OC repeaters
-          if county == "Orange" or county == "Los Angeles":
+          if county == "Orange" or county == "Los Angeles" or county == "Riverside" or county == "San Diego" or county == "San Bernardino":
 
                # scrapes repeater status    
                usage = item.find('font').text.strip()
