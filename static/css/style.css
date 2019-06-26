@@ -6,3 +6,18 @@
 body {
       font-family: 'Libre Franklin', sans-serif;
 }
+
+/* remove default margin and padding from body */
+body {
+  padding: 0;
+  margin: 0;
+}
+
+/* set map, body, and html to 100% of the screen size */
+#map,
+body,
+html {
+  height: 80%;
+  width: 100%;
+  position: relative;
+}
