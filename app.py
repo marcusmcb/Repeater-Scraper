@@ -66,6 +66,7 @@ for item in table_rows:
                     lat = geocoder.osm(location + california).lat
                     lng = geocoder.osm(location + california).lng
                     print('Data Added')
+                    
                     # push result to mongodb
                     db.stations.insert_one(
                          {'location': location,
