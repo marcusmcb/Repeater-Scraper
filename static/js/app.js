@@ -38,7 +38,8 @@ function jsTest() {
           // render map to html map div
           let myMap = L.map("map", {
                center: [34.0522, -118.2437],
-               zoom: 8
+               zoom: 8,
+               minZoom: 7
           });
 
           L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
