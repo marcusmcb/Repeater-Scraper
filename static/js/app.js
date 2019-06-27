@@ -26,7 +26,8 @@ let blackIcon = new L.Icon({
      shadowSize: [41, 41]
 });
 
-function jsTest() {
+// function to build transmitter map on site load
+function buildMap() {
 
      // api endpoint to grab JSON data
      let url = "/api/repeaters";
@@ -66,4 +67,35 @@ function jsTest() {
      })
 }
 
-jsTest();
+// function to built table on site load
+function buildTable() {
+
+     // set variable to grab JSON data from api endpoint
+     let url = "/api/repeaters";
+
+     // function to build individual table rows and cells
+     d3.json(url).then(function (response) {
+          console.log(response);
+          let tbody = d3.select('tbody');
+          tbody.html("");
+          response.forEach((item) => {
+               let row = tbody.append("tr");
+               let cell1 = row.append("td")
+               cell1.text(item.call_sign);
+               let cell2 = row.append("td")
+               cell2.text(item.location)
+               let cell3 = row.append("td")
+               cell3.text(item.frequency)
+               let cell4 = row.append("td")
+               cell4.text(item.county)
+               let cell5 = row.append("td")
+               cell5.text(item.usage)
+          })
+     })
+}
+
+// renders table on site load
+buildTable();
+
+// renders map on site load
+buildMap();

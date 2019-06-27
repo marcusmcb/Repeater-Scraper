@@ -67,7 +67,7 @@
                                    <a href="#" class="dropdown-item">Repeater Status</a>
                               </div>
                          </li>
-                         
+
                     </ul>
                </div>
           </nav>
@@ -90,42 +90,22 @@
                                    <th class="text-center">Status</th>
                               </tr>
                          </thead>
-                         <!--flask for loop to populate table rows-->
-                         <tbody>
-                              {% for station in stationlist %}
-                              <tr>
-                                   <td>{{ station.call_sign }}</td>
-                                   <td>{{ station.location }}</td>
-                                   <td>{{ station.frequency }}</td>
-                                   <td>{{ station.county }}</td>
-                                   <td>{{ station.usage }}</td>
-                              </tr>
-                              {% endfor %}
-                         </tbody>
+                         <!--div to render data table from javascript-->
+                         <tbody></tbody>
                     </table>
                </div>
           </div>
      </div>
-     <!--jQuery CDN-->
      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
           integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
           crossorigin="anonymous"></script>
-
-     <!--popper element for dropdown-->          
      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
           integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
           crossorigin="anonymous"></script>
-
-     <!--boostrap javascript link-->
      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
           integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
           crossorigin="anonymous"></script>
-
-     <!--local javascript links-->
      <script src="{{ url_for('static', filename='js/config.js') }}"></script>
      <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
-
 </html>
-
-<!--15/3/08 to link up to javascript-->
