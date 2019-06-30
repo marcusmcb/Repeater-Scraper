@@ -35,20 +35,9 @@ function buildMap() {
      // function to build transmitter map
      d3.json(url).then(function (response) {
 
-          // render map to html map div
-          let myMap = L.map("map", {
-               center: [34.0522, -118.2437],
-               zoom: 8,
-               minZoom: 7
-          });
-
-          // add base layer to map
-          L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
-               attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
-               maxZoom: 18,
-               id: "mapbox.streets",
-               accessToken: API_KEY
-          }).addTo(myMap);
+          let redMarkers = [];
+          let greenMarkers = [];
+          let blackMarkers = [];
 
           // for loop to pull out coordinates and generate popup with added info when clicked
           for (let i = 0; i < response.length; i++) {
@@ -61,21 +50,67 @@ function buildMap() {
 
                // if/else logic to determine marker color based on current usage status
                if (response[i].usage === "OPEN") {
-                    L.marker([(response[i].latitude + x), (response[i].longitude - x)], { icon: greenIcon })
-                         .bindPopup("<h4><a href='" + infoLink + "'>" + response[i].call_sign + " / " + response[i].frequency + " MHz" + "</a></h4><hr><h6>" + response[i].location + " (" + response[i].usage + ")" + "</h6>")
-                         .addTo(myMap)
-               } else if (response[i].usage === "CLOSED") {
-                    L.marker([(response[i].latitude - x), (response[i].longitude + x)], { icon: redIcon })
-                         .bindPopup("<h4><a href='" + infoLink + "'>" + response[i].call_sign + " / " + response[i].frequency + " MHz" + "</a></h4><hr><h6>" + response[i].location + " (" + response[i].usage + ")" + "</h6>")
-                         .addTo(myMap)
+                    greenMarkers.push(
+                         L.marker([(response[i].latitude + x), (response[i].longitude - x)], { icon: greenIcon })
+                              .bindPopup("<h4><a href='" + infoLink + "'>" + response[i].call_sign + " / " + response[i].frequency + " MHz" + "</a></h4><hr><h6>" + response[i].location + " (" + response[i].usage + ")" + "</h6>")
+                    )
 
-               // applies black markers to transmitters marked "PRIVATE"
+               } else if (response[i].usage === "CLOSED") {
+                    redMarkers.push(
+                         L.marker([(response[i].latitude - x), (response[i].longitude + x)], { icon: redIcon })
+                              .bindPopup("<h4><a href='" + infoLink + "'>" + response[i].call_sign + " / " + response[i].frequency + " MHz" + "</a></h4><hr><h6>" + response[i].location + " (" + response[i].usage + ")" + "</h6>")
+                    )
+
+                    // applies black markers to transmitters marked "PRIVATE"
                } else {
-                    L.marker([(response[i].latitude - x), (response[i].longitude - x)], { icon: blackIcon })
-                         .bindPopup("<h4><a href='" + infoLink + "'>" + response[i].call_sign + " / " + response[i].frequency + " MHz" + "</a></h4><hr><h6>" + response[i].location + " (" + response[i].usage + ")" + "</h6>")
-                         .addTo(myMap)
+                    blackMarkers.push(
+                         L.marker([(response[i].latitude - x), (response[i].longitude - x)], { icon: blackIcon })
+                              .bindPopup("<h4><a href='" + infoLink + "'>" + response[i].call_sign + " / " + response[i].frequency + " MHz" + "</a></h4><hr><h6>" + response[i].location + " (" + response[i].usage + ")" + "</h6>")
+                    )
                }
           }
+
+          // add base layer to map
+          let mainMap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
+               attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
+               maxZoom: 18,
+               id: "mapbox.streets",
+               accessToken: API_KEY
+          });
+
+          let darkMap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
+               attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
+               maxZoom: 18,
+               id: "mapbox.dark",
+               accessToken: API_KEY
+          });
+
+          let openX = L.layerGroup(greenMarkers);
+          let closedX = L.layerGroup(redMarkers);
+          let privateX = L.layerGroup(blackMarkers);
+
+          let baseMap = {
+               "Main Map": mainMap,
+               "Dark Map": darkMap
+          };
+
+          let overlayMaps = {
+               "Open Repeaters": openX,
+               "Closed Repeaters": closedX,
+               "Private Repeaters": privateX
+          };
+
+          // render map to html map div
+          let myMap = L.map("map", {
+               center: [34.0522, -118.2437],
+               zoom: 8,
+               minZoom: 7,
+               layers: [mainMap, openX, closedX, privateX]
+          });
+
+          L.control.layers(baseMap, overlayMaps, {
+               collapsed: false
+          }).addTo(myMap)
      })
 }
 
