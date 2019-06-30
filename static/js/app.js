@@ -52,14 +52,19 @@ function buildMap() {
 
           // for loop to pull out coordinates and generate popup with added info when clicked
           for (let i = 0; i < response.length; i++) {
+               x = Math.floor(Math.random() * .002) + .008
 
                // if/else logic to determine marker color based on current usage status
                if (response[i].usage === "OPEN") {
-                    L.marker([response[i].latitude, response[i].longitude], { icon: greenIcon })
+                    L.marker([(response[i].latitude + x), (response[i].longitude - x)], { icon: greenIcon })
+                         .bindPopup("<h4>" + response[i].call_sign + " / " + response[i].frequency + "</h4><hr><h6>" + response[i].location + " (" + response[i].usage + ")" + "</h6>")
+                         .addTo(myMap)
+               } else if (response[i].usage === "CLOSED") {
+                    L.marker([(response[i].latitude - x), (response[i].longitude + x)], { icon: redIcon })
                          .bindPopup("<h4>" + response[i].call_sign + " / " + response[i].frequency + "</h4><hr><h6>" + response[i].location + " (" + response[i].usage + ")" + "</h6>")
                          .addTo(myMap)
                } else {
-                    L.marker([response[i].latitude, response[i].longitude], { icon: redIcon })
+                    L.marker([(response[i].latitude - x), (response[i].longitude - x)], { icon: blackIcon })
                          .bindPopup("<h4>" + response[i].call_sign + " / " + response[i].frequency + "</h4><hr><h6>" + response[i].location + " (" + response[i].usage + ")" + "</h6>")
                          .addTo(myMap)
                }

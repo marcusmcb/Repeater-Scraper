@@ -55,30 +55,30 @@ for item in table_rows:
                usage = item.find('font').text.strip()
 
                # if/else statement to remove private repeaters
-               if usage != "PRIVATE":
+               # if usage != "PRIVATE":
 
-                    # scrapes remaining values
-                    freq = item.find('a').text               
-                    county = item.find_all('td', attrs={'class': None})[2].text
-                    location = item.find(class_="w3-left-align").text.split(",")[0].strip()               
+               # scrapes remaining values
+               freq = item.find('a').text               
+               county = item.find_all('td', attrs={'class': None})[2].text
+               location = item.find(class_="w3-left-align").text.split(",")[0].strip()               
 
-                    # pulls location coordinates from geocoder
-                    lat = geocoder.osm(location + california).lat
-                    lng = geocoder.osm(location + california).lng
-                    print('Data Added')
+               # pulls location coordinates from geocoder
+               lat = geocoder.osm(location + california).lat
+               lng = geocoder.osm(location + california).lng
+               print('Data Added')
                     
-                    # push result to mongodb
-                    db.stations.insert_one(
-                         {'location': location,
-                         'latitude': lat,
-                         'longitude': lng,
-                         'frequency': freq,
-                         'call_sign': callsign,
-                         'county': county,
-                         'usage': usage})
+               # push result to mongodb
+               db.stations.insert_one(
+                    {'location': location,
+                    'latitude': lat,
+                    'longitude': lng,
+                    'frequency': freq,
+                    'call_sign': callsign,
+                    'county': county,
+                    'usage': usage})
 
-               else:
-                    pass
+               #else:
+               #     pass
           else:
                pass
      else:
