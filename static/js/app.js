@@ -35,6 +35,7 @@ function buildMap() {
      // function to build transmitter map
      d3.json(url).then(function (response) {
 
+          // set empty array to hold leaflet markers for each repeater's usage type
           let redMarkers = [];
           let greenMarkers = [];
           let blackMarkers = [];
@@ -48,7 +49,7 @@ function buildMap() {
                // variable to set link within anchor tag of each marker               
                let infoLink = "https://www.hamqth.com/" + response[i].call_sign
 
-               // if/else logic to determine marker color based on current usage status
+               // if/else logic to determine marker color based on current usage status and push to the corresponding leaflet layer
                if (response[i].usage === "OPEN") {
                     greenMarkers.push(
                          L.marker([(response[i].latitude + x), (response[i].longitude - x)], { icon: greenIcon })
@@ -78,6 +79,7 @@ function buildMap() {
                accessToken: API_KEY
           });
 
+          // add dark layer to amp
           let darkMap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
                attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
                maxZoom: 18,
@@ -85,15 +87,18 @@ function buildMap() {
                accessToken: API_KEY
           });
 
+          // assigns marker arrays to leaflet layers
           let openX = L.layerGroup(greenMarkers);
           let closedX = L.layerGroup(redMarkers);
           let privateX = L.layerGroup(blackMarkers);
 
+          // sets up basemap options
           let baseMap = {
                "Main Map": mainMap,
                "Dark Map": darkMap
           };
 
+          // sets up layer options
           let overlayMaps = {
                "Open Repeaters": openX,
                "Closed Repeaters": closedX,
@@ -108,6 +113,7 @@ function buildMap() {
                layers: [mainMap, openX, closedX, privateX]
           });
 
+          // set up layer controls for leaflet map
           L.control.layers(baseMap, overlayMaps, {
                collapsed: false
           }).addTo(myMap)
