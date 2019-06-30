@@ -1,4 +1,4 @@
-// variables for marker colors
+// variables for marker colors from Leaflet-Markers-Colors
 let redIcon = new L.Icon({
      iconUrl: 'static/img/marker-icon-2x-red.png',
      shadowUrl: 'static/img/marker-shadow.png',
@@ -34,7 +34,6 @@ function buildMap() {
 
      // function to build transmitter map
      d3.json(url).then(function (response) {
-          console.log(response[0].latitude);
 
           // render map to html map div
           let myMap = L.map("map", {
@@ -43,6 +42,7 @@ function buildMap() {
                minZoom: 7
           });
 
+          // add base layer to map
           L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
                attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
                maxZoom: 18,
@@ -52,6 +52,8 @@ function buildMap() {
 
           // for loop to pull out coordinates and generate popup with added info when clicked
           for (let i = 0; i < response.length; i++) {
+
+               // added random number variable to offset lat/lng for locations with multiple transmitters
                x = Math.floor(Math.random() * .002) + .008
 
                // if/else logic to determine marker color based on current usage status
@@ -63,6 +65,8 @@ function buildMap() {
                     L.marker([(response[i].latitude - x), (response[i].longitude + x)], { icon: redIcon })
                          .bindPopup("<h4>" + response[i].call_sign + " / " + response[i].frequency + "</h4><hr><h6>" + response[i].location + " (" + response[i].usage + ")" + "</h6>")
                          .addTo(myMap)
+
+                    // applies black markers to transmitters marked "PRIVATE"
                } else {
                     L.marker([(response[i].latitude - x), (response[i].longitude - x)], { icon: blackIcon })
                          .bindPopup("<h4>" + response[i].call_sign + " / " + response[i].frequency + "</h4><hr><h6>" + response[i].location + " (" + response[i].usage + ")" + "</h6>")
