@@ -1,3 +1,3 @@
 # Repeater-Scraper
-Python code to scrape data from ham radio repeater site.
+UCI Data Analytics Bootcamp - Group Project #2
 Marcus McBride, 2019.
