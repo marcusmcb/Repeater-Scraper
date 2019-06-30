@@ -51,13 +51,8 @@ for item in table_rows:
           # if/else statement to narrow list down to just LA & OC repeaters
           if county == "Orange" or county == "Los Angeles" or county == "Riverside" or county == "San Diego" or county == "San Bernardino" or county == "Ventura":
 
-               # scrapes repeater status    
-               usage = item.find('font').text.strip()
-
-               # if/else statement to remove private repeaters
-               # if usage != "PRIVATE":
-
                # scrapes remaining values
+               usage = item.find('font').text.strip()
                freq = item.find('a').text               
                county = item.find_all('td', attrs={'class': None})[2].text
                location = item.find(class_="w3-left-align").text.split(",")[0].strip()               
@@ -76,9 +71,7 @@ for item in table_rows:
                     'call_sign': callsign,
                     'county': county,
                     'usage': usage})
-
-               #else:
-               #     pass
+               
           else:
                pass
      else:

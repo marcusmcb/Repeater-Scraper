@@ -56,20 +56,23 @@ function buildMap() {
                // added random number variable to offset lat/lng for locations with multiple transmitters
                x = Math.floor(Math.random() * .002) + .008
 
+               // variable to set link within anchor tag of each marker               
+               let infoLink = "https://www.hamqth.com/" + response[i].call_sign
+
                // if/else logic to determine marker color based on current usage status
                if (response[i].usage === "OPEN") {
                     L.marker([(response[i].latitude + x), (response[i].longitude - x)], { icon: greenIcon })
-                         .bindPopup("<h4>" + response[i].call_sign + " / " + response[i].frequency + "</h4><hr><h6>" + response[i].location + " (" + response[i].usage + ")" + "</h6>")
+                         .bindPopup("<h4><a href='" + infoLink + "'>" + response[i].call_sign + " / " + response[i].frequency + " MHz" + "</a></h4><hr><h6>" + response[i].location + " (" + response[i].usage + ")" + "</h6>")
                          .addTo(myMap)
                } else if (response[i].usage === "CLOSED") {
                     L.marker([(response[i].latitude - x), (response[i].longitude + x)], { icon: redIcon })
-                         .bindPopup("<h4>" + response[i].call_sign + " / " + response[i].frequency + "</h4><hr><h6>" + response[i].location + " (" + response[i].usage + ")" + "</h6>")
+                         .bindPopup("<h4><a href='" + infoLink + "'>" + response[i].call_sign + " / " + response[i].frequency + " MHz" + "</a></h4><hr><h6>" + response[i].location + " (" + response[i].usage + ")" + "</h6>")
                          .addTo(myMap)
 
-                    // applies black markers to transmitters marked "PRIVATE"
+               // applies black markers to transmitters marked "PRIVATE"
                } else {
                     L.marker([(response[i].latitude - x), (response[i].longitude - x)], { icon: blackIcon })
-                         .bindPopup("<h4>" + response[i].call_sign + " / " + response[i].frequency + "</h4><hr><h6>" + response[i].location + " (" + response[i].usage + ")" + "</h6>")
+                         .bindPopup("<h4><a href='" + infoLink + "'>" + response[i].call_sign + " / " + response[i].frequency + " MHz" + "</a></h4><hr><h6>" + response[i].location + " (" + response[i].usage + ")" + "</h6>")
                          .addTo(myMap)
                }
           }
