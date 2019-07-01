@@ -68,7 +68,10 @@ function buildGraph() {
                x: ['Los Angeles', 'Orange', 'Riverside', 'San Bernardino', 'Venutra', 'San Diego'],
                y: [laCount, oCount, rCount, sbCount, vCount, sdCount],
                name: "Total Repeaters",
-               type: 'bar'
+               type: 'bar',
+               marker: {
+                    color: 'orange'
+               }
           }
 
           // Plotly trace for total # of open repeaters
@@ -76,7 +79,10 @@ function buildGraph() {
                x: ['Los Angeles', 'Orange', 'Riverside', 'San Bernardino', 'Venutra', 'San Diego'],
                y: [laOpen, oOpen, rOpen, sbOpen, vOpen, sdOpen],
                name: "Open Repeaters",
-               type: 'bar'
+               type: 'bar',
+               marker: {
+                    color: 'green'
+               }
           }
 
           // Plotly trace for total # of closed repeaters
@@ -84,7 +90,10 @@ function buildGraph() {
                x: ['Los Angeles', 'Orange', 'Riverside', 'San Bernardino', 'Venutra', 'San Diego'],
                y: [laClosed, oClosed, rClosed, sbClosed, vClosed, sdClosed],
                name: "Closed Repeaters",
-               type: 'bar'
+               type: 'bar',
+               marker: {
+                    color: 'red'
+               }
           }
 
           // Plotly trace for total # of private repeaters
@@ -92,14 +101,23 @@ function buildGraph() {
                x: ['Los Angeles', 'Orange', 'Riverside', 'San Bernardino', 'Venutra', 'San Diego'],
                y: [laPrivate, oPrivate, rPrivate, sbPrivate, vPrivate, sdPrivate],
                name: "Private Repeaters",
-               type: 'bar'
+               type: 'bar',
+               marker: {
+                    color: 'grey'
+               }
+          }
+
+          let layout = {
+               title: {
+                    text: "Repeaters By County & Status"
+               }
           }
 
           // array for trace values
           let data = [trace1, trace2, trace3, trace4];
 
           // renders Plotly graph
-          Plotly.newPlot('graph', data)
+          Plotly.newPlot('graph', data, layout)
 
      })
 }

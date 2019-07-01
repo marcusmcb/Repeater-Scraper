@@ -39,7 +39,19 @@ a {
 }
 
 a:hover { 
-  color: yellow;
+  color: lightslategray;
+}
+
+.jumbotron {
+  background-image: url("../img/ham.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding-bottom: 10%
+}
+
+.col-12 {
+  padding-right: 0%;
+  padding-left: 0%
 }
 
 /* tbody {
