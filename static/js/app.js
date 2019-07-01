@@ -238,3 +238,63 @@ function buildMap() {
 }
 
 buildMap();
+
+// function to search table by city
+function citySearch() {
+     var input, filter, table, tr, td, i, txtValue;
+     input = document.getElementById("cityLookup")
+     filter = input.value.toUpperCase();
+     table = document.getElementById("mainTable")
+     tr = table.getElementsByTagName("tr");
+     for (i = 0; i < tr.length; i++) {
+          td = tr[i].getElementsByTagName("td")[1];
+          if (td) {
+               txtValue = td.textContent || td.innerText;
+               if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+               } else {
+                    tr[i].style.display = "none";
+               }
+          }
+     }
+}
+
+// function to search by county
+function countySearch() {
+     var input, filter, table, tr, td, i, txtValue;
+     input = document.getElementById("countyLookup")
+     filter = input.value.toUpperCase();
+     table = document.getElementById("mainTable")
+     tr = table.getElementsByTagName("tr");
+     for (i = 0; i < tr.length; i++) {
+          td = tr[i].getElementsByTagName("td")[3];
+          if (td) {
+               txtValue = td.textContent || td.innerText;
+               if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+               } else {
+                    tr[i].style.display = "none";
+               }
+          }
+     }
+}
+
+// function to search by status/usage
+function statusSearch() {
+     var input, filter, table, tr, td, i, txtValue;
+     input = document.getElementById("statusLookup")
+     filter = input.value.toUpperCase();
+     table = document.getElementById("mainTable")
+     tr = table.getElementsByTagName("tr");
+     for (i = 0; i < tr.length; i++) {
+          td = tr[i].getElementsByTagName("td")[4];
+          if (td) {
+               txtValue = td.textContent || td.innerText;
+               if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+               } else {
+                    tr[i].style.display = "none";
+               }
+          }
+     }
+}

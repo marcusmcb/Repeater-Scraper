@@ -54,6 +54,16 @@ a:hover {
   padding-left: 0%
 }
 
+input[type=text], select {
+  width: 33%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
 /* tbody {
     display: block;
     max-height: 200px;

@@ -67,8 +67,14 @@
           </div>
      </div>
 
+     <div class="ml-3 mr-2">
+          <input type="text" id="cityLookup" onkeyup="citySearch()" placeholder="Search By City">
+          <input type="text" id="countyLookup" onkeyup="countySearch()" placeholder="Search By County">
+          <input type="text" id="statusLookup" onkeyup="statusSearch()" placeholder="Search By Status">
+     </div>
+
      <div class="col-12 text-center">
-          <table class="table table-striped tableFixHead mx-auto">
+          <table id="mainTable" class="table table-striped tableFixHead mx-auto">
                <thead class="thead-dark">
                     <tr>
                          <th class="text-center">Call Sign</th>
