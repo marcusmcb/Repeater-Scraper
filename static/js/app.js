@@ -152,3 +152,4 @@ buildTable();
 
 // renders map on site load
 buildMap();
+

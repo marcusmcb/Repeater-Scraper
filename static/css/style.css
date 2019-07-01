@@ -21,3 +21,24 @@ html {
   width: 100%;
   position: relative;
 }
+
+/*Set a min table width*/
+table { min-width: 500px; }
+
+thead, tbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+tbody {
+    display: block;
+    max-height: 200px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
