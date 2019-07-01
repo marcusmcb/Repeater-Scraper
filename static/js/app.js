@@ -149,27 +149,77 @@ function buildGraph() {
 
      d3.json(url).then(function (response) {
 
-          // calculates tatal count of repeaters by county
+          // reducer to calculate total # of repeaters by county as well as their usage (open or closed)
           let oCount = response.reduce(function (n, response) { return n + (response.county == "Orange") }, 0)
-          let laCount = response.reduce(function (n, response) { return n + (response.county == "Los Angeles") }, 0)
-          let riversideCount = response.reduce(function (n, response) { return n + (response.county == "Riverside") }, 0)
-          let venturaCount = response.reduce(function (n, response) { return n + (response.county == "Ventura") }, 0)
-          let sbCount = response.reduce(function (n, response) { return n + (response.county == "San Bernardino") }, 0)
-          let sdCount = response.reduce(function (n, response) { return n + (response.county == "San Diego") }, 0)
+          let oOpen = response.reduce(function (n, response) { return n + (response.county == "Orange" && response.usage == "OPEN") }, 0)
+          let oClosed = response.reduce(function (n, response) { return n + (response.county == "Orange" && response.usage == "CLOSED") }, 0)
+          let oPrivate = response.reduce(function (n, response) { return n + (response.county == "Orange" && response.usage == "PRIVATE") }, 0)
 
-          // data for Plotly chart
-          let data = [
-               {
-                    x: ['Los Angeles', 'Orange', 'Riverside', 'San Bernardino', 'Venutra', 'San Diego'],
-                    y: [laCount, oCount, riversideCount, sbCount, venturaCount, sdCount],
-                    type: 'bar'
-               }
-          ];
-          Plotly.newPlot('graph', data);
+          let laCount = response.reduce(function (n, response) { return n + (response.county == "Los Angeles") }, 0)
+          let laOpen = response.reduce(function (n, response) { return n + (response.county == "Los Angeles" && response.usage == "OPEN") }, 0)
+          let laClosed = response.reduce(function (n, response) { return n + (response.county == "Los Angeles" && response.usage == "CLOSED") }, 0)
+          let laPrivate = response.reduce(function (n, response) { return n + (response.county == "Los Angeles" && response.usage == "PRIVATE") }, 0)
+
+          let rCount = response.reduce(function (n, response) { return n + (response.county == "Riverside") }, 0)
+          let rOpen = response.reduce(function (n, response) { return n + (response.county == "Riverside" && response.usage == "OPEN") }, 0)
+          let rClosed = response.reduce(function (n, response) { return n + (response.county == "Riverside" && response.usage == "CLOSED") }, 0)
+          let rPrivate = response.reduce(function (n, response) { return n + (response.county == "Riverside" && response.usage == "PRIVATE") }, 0)
+
+          let vCount = response.reduce(function (n, response) { return n + (response.county == "Ventura") }, 0)
+          let vOpen = response.reduce(function (n, response) { return n + (response.county == "Ventura" && response.usage == "OPEN") }, 0)
+          let vClosed = response.reduce(function (n, response) { return n + (response.county == "Ventura" && response.usage == "CLOSED") }, 0)
+          let vPrivate = response.reduce(function (n, response) { return n + (response.county == "Ventura" && response.usage == "PRIVATE") }, 0)
+
+          let sbCount = response.reduce(function (n, response) { return n + (response.county == "San Bernardino") }, 0)
+          let sbOpen = response.reduce(function (n, response) { return n + (response.county == "San Bernardino" && response.usage == "OPEN") }, 0)
+          let sbClosed = response.reduce(function (n, response) { return n + (response.county == "San Bernardino" && response.usage == "CLOSED") }, 0)
+          let sbPrivate = response.reduce(function (n, response) { return n + (response.county == "San Bernardino" && response.usage == "PRIVATE") }, 0)
+
+          let sdCount = response.reduce(function (n, response) { return n + (response.county == "San Diego") }, 0)
+          let sdOpen = response.reduce(function (n, response) { return n + (response.county == "San Diego" && response.usage == "OPEN") }, 0)
+          let sdClosed = response.reduce(function (n, response) { return n + (response.county == "San Diego" && response.usage == "CLOSED") }, 0)
+          let sdPrivate = response.reduce(function (n, response) { return n + (response.county == "San Diego" && response.usage == "PRIVATE") }, 0)
+
+          // Plotly trace for total # of repeaters for each county
+          let trace1 = {
+               x: ['Los Angeles', 'Orange', 'Riverside', 'San Bernardino', 'Venutra', 'San Diego'],
+               y: [laCount, oCount, rCount, sbCount, vCount, sdCount],
+               name: "Total Repeaters",
+               type: 'bar'
+          }
+
+          // Plotly trace for total # of open repeaters
+          let trace2 = {
+               x: ['Los Angeles', 'Orange', 'Riverside', 'San Bernardino', 'Venutra', 'San Diego'],
+               y: [laOpen, oOpen, rOpen, sbOpen, vOpen, sdOpen],
+               name: "Open Repeaters",
+               type: 'bar'
+          }
+
+          // Plotly trace for total # of closed repeaters
+          let trace3 = {
+               x: ['Los Angeles', 'Orange', 'Riverside', 'San Bernardino', 'Venutra', 'San Diego'],
+               y: [laClosed, oClosed, rClosed, sbClosed, vClosed, sdClosed],
+               name: "Closed Repeaters",
+               type: 'bar'
+          }
+
+          // Plotly trace for total # of private repeaters
+          let trace4 = {
+               x: ['Los Angeles', 'Orange', 'Riverside', 'San Bernardino', 'Venutra', 'San Diego'],
+               y: [laPrivate, oPrivate, rPrivate, sbPrivate, vPrivate, sdPrivate],
+               name: "Private Repeaters",
+               type: 'bar'
+          }
+
+          // array for trace values
+          let data = [trace1, trace2, trace3, trace4];
+
+          // renders Plotly graph
+          Plotly.newPlot('graph', data)
+
      })
 }
 
-// calls function to render Plotly chart
+// calls function to render Plotly graph
 buildGraph();
-
-
