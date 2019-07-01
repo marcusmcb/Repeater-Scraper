@@ -1,3 +1,5 @@
+/* import google font specs */
+
 @font-face{
       font-family: 'Libre Franklin', sans-serif;
       src: url('https://fonts.googleapis.com/css?family=Libre+Franklin&display=swap');
@@ -17,21 +19,30 @@ body {
 #map,
 body,
 html {
-  height: 80%;
+  height: 95%;
   width: 100%;
   position: relative;
 }
 
-/*Set a min table width*/
-table { min-width: 500px; }
-
-thead, tbody tr {
-    display: table;
-    width: 100%;
-    table-layout: fixed;
+/* fix table header to top when table is scrolled*/
+.tableFixHead thead th {
+  position: sticky; 
+  top: 0; 
 }
 
-tbody {
+a:visited { 
+  color: white;
+}
+
+a {
+  color: white;
+}
+
+a:hover { 
+  color: yellow;
+}
+
+/* tbody {
     display: block;
     max-height: 200px;
     overflow-x: hidden;
@@ -41,4 +52,4 @@ tbody {
 td {
     overflow: hidden;
     text-overflow: ellipsis;
-}
+} */

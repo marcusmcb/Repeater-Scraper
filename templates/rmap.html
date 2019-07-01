@@ -5,7 +5,7 @@
      <meta charset="UTF-8">
      <meta name="viewport" content="width=device-width, initial-scale=1.0">
      <meta http-equiv="X-UA-Compatible" content="ie=edge">
-     <title>Repeater Stations - Table</title>
+     <title>Repeater Stations - Map</title>
 
      <!--favicon link-->
      <link rel="shortcut icon" type="image/png" href="../static/img/favicon.png" />
@@ -61,26 +61,6 @@
           </div>
      </nav>
 
-     <div class="container">
-          <div class="row">
-               <div class="col-12 text-center">
-                    <table class="table table-striped tableFixHead mx-auto">
-                         <thead class="thead-dark">
-                              <tr>
-                                   <th class="text-center">Call Sign</th>
-                                   <th class="text-center">Location</th>
-                                   <th class="text-center">Frequency</th>
-                                   <th class="text-center">County</th>
-                                   <th class="text-center">Status</th>
-                              </tr>
-                         </thead>
-                         <!--div to render data table from javascript-->
-                         <tbody></tbody>
-                    </table>
-               </div>
-          </div>
-     </div>
-
      <!--empty div for rendering visuals-->
 
      <div id="map"></div>
@@ -97,7 +77,6 @@
      <!--local JS dependencies-->
      <script src="{{ url_for('static', filename='js/config.js') }}"></script>
      <script src="{{ url_for('static', filename='js/app.js') }}"></script>
-
 </body>
 
 </html>
