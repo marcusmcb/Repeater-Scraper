@@ -26,16 +26,15 @@ let blackIcon = new L.Icon({
      shadowSize: [41, 41]
 });
 
+// assign variable to grab data from api endpoint
+let url = "/api/repeaters";
+
 // function to build transmitter map on site load
 function buildMap() {
-
-     // api endpoint to grab JSON data
-     let url = "/api/repeaters";
 
      // function to build transmitter map
      d3.json(url).then(function (response) {
 
-          // set empty array to hold leaflet markers for each repeater's usage type
           let redMarkers = [];
           let greenMarkers = [];
           let blackMarkers = [];
@@ -49,7 +48,7 @@ function buildMap() {
                // variable to set link within anchor tag of each marker               
                let infoLink = "https://www.hamqth.com/" + response[i].call_sign
 
-               // if/else logic to determine marker color based on current usage status and push to the corresponding leaflet layer
+               // if/else logic to determine marker color based on current usage status
                if (response[i].usage === "OPEN") {
                     greenMarkers.push(
                          L.marker([(response[i].latitude + x), (response[i].longitude - x)], { icon: greenIcon })
@@ -79,7 +78,6 @@ function buildMap() {
                accessToken: API_KEY
           });
 
-          // add dark layer to amp
           let darkMap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
                attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
                maxZoom: 18,
@@ -87,18 +85,15 @@ function buildMap() {
                accessToken: API_KEY
           });
 
-          // assigns marker arrays to leaflet layers
           let openX = L.layerGroup(greenMarkers);
           let closedX = L.layerGroup(redMarkers);
           let privateX = L.layerGroup(blackMarkers);
 
-          // sets up basemap options
           let baseMap = {
                "Main Map": mainMap,
                "Dark Map": darkMap
           };
 
-          // sets up layer options
           let overlayMaps = {
                "Open Repeaters": openX,
                "Closed Repeaters": closedX,
@@ -113,7 +108,6 @@ function buildMap() {
                layers: [mainMap, openX, closedX, privateX]
           });
 
-          // set up layer controls for leaflet map
           L.control.layers(baseMap, overlayMaps, {
                collapsed: false
           }).addTo(myMap)
@@ -122,9 +116,6 @@ function buildMap() {
 
 // function to built table on site load
 function buildTable() {
-
-     // set variable to grab JSON data from api endpoint
-     let url = "/api/repeaters";
 
      // function to build individual table rows and cells
      d3.json(url).then(function (response) {
@@ -152,4 +143,33 @@ buildTable();
 
 // renders map on site load
 buildMap();
+
+// function to build Plotly bar chart
+function buildGraph() {
+
+     d3.json(url).then(function (response) {
+
+          // calculates tatal count of repeaters by county
+          let oCount = response.reduce(function (n, response) { return n + (response.county == "Orange") }, 0)
+          let laCount = response.reduce(function (n, response) { return n + (response.county == "Los Angeles") }, 0)
+          let riversideCount = response.reduce(function (n, response) { return n + (response.county == "Riverside") }, 0)
+          let venturaCount = response.reduce(function (n, response) { return n + (response.county == "Ventura") }, 0)
+          let sbCount = response.reduce(function (n, response) { return n + (response.county == "San Bernardino") }, 0)
+          let sdCount = response.reduce(function (n, response) { return n + (response.county == "San Diego") }, 0)
+
+          // data for Plotly chart
+          let data = [
+               {
+                    x: ['Los Angeles', 'Orange', 'Riverside', 'San Bernardino', 'Venutra', 'San Diego'],
+                    y: [laCount, oCount, riversideCount, sbCount, venturaCount, sdCount],
+                    type: 'bar'
+               }
+          ];
+          Plotly.newPlot('graph', data);
+     })
+}
+
+// calls function to render Plotly chart
+buildGraph();
+
 
