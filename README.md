@@ -12,7 +12,7 @@ For this project, we opted to scrape data from the site specifically for six cou
 
 The Repeaterbook site did not have easily scraped coordinate data for each location available so we utilized the Geocoder library for Python to collect that information while joining it with the previously scraped data to store in our database.  The coordinates are approximate and based on the city each repeater is located in.
 
-### Visualizations & Site Layout.
+### Visualizations & Site Layout
 
 ![Screenshot](map-full.png)
 
