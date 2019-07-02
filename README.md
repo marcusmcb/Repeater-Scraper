@@ -1,6 +1,6 @@
 # Repeater-Scraper
 
-
+![Screenshot](table.png)
 
 Repeater Scraper is an application that scrapes data from the web site, Repeaterbook.com, which is used to build data visualizations for the information collected.  
 
