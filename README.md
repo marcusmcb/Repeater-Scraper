@@ -28,9 +28,7 @@ Flask was used in rendering the HTML pages and the data visualizations were crea
 
 Designed & developed by:
 
-Aaron Windmiller
-Alvin Kim
-Marcus McBride
+Aaron Windmiller, Alvin Kim, and Marcus McBride
 
 UCI Data Analytics Bootcamp, 2019.
 
