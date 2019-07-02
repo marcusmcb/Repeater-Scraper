@@ -14,6 +14,8 @@ The Repeaterbook site did not have easily scraped coordinate data for each locat
 
 ### Visualizations & Site Layout.
 
+![Screenshot](map-full.png)
+
 Flask was used in rendering the HTML pages and the data visualizations were created via Javascript using Leaflet & Open Street Maps (for geo-mapping), Plotly (graph page), and Bootstrap (table page).  The "display data" link in the navbar of this app simply displays the scraped data from our MongoDB table as a JSON file.
 
 ### Coding Languages & Libraries Used:
