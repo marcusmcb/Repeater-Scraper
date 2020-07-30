@@ -9,7 +9,6 @@ import geocoder
 # create flask app
 app = Flask(__name__)
 
-
 # mongo connection
 conn = 'mongodb://localhost:27017'
 
@@ -25,6 +24,7 @@ db.stations.drop()
 
 #db.stations.drop()
 print("After Drop")
+
 # url to scrape & soup setup
 url = 'https://www.repeaterbook.com/repeaters/Display_SS.php?state_id=06&band=4&loc=%&call=%&use=%'
 response = requests.get(url)

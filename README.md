@@ -18,12 +18,12 @@ The Repeaterbook site did not have easily scraped coordinate data for each locat
 
 Flask was used in rendering the HTML pages and the data visualizations were created via Javascript using Leaflet & Open Street Maps (for geo-mapping), Plotly (graph page), and Bootstrap (table page).  The "display data" link in the navbar of this app simply displays the scraped data from our MongoDB table as a JSON file.
 
-### Coding Languages & Libraries Used:
+### Languages & Libraries Used:
 
 * Python (Geocoder, BeautifulSoup)
 * Javascript (LeafletJS, PlotlyJS, D3)
 * Flask
-* MongoDB
+* MongoDB (PyMongo)
 * Bootstrap
 
 Designed & developed by:
